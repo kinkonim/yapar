@@ -1,0 +1,28 @@
+<form action="" method="post">
+Запрос:<input type="text" name="text"><br>
+Сколько картинок:<input type="text" name="num"><br>
+<button>ok</button>
+</form>
+<?
+if(isset($_POST['text']) and isset($_POST['num'])){
+  $text=str_replace(" ","+",trim($_POST['text']));
+  $n=intval($_POST['num']);
+  $ns=ceil(($n/20));
+  for($i=0;$i<$ns;$i++){
+  $str=file_get_contents("http://images.yandex.ru/yandsearch?p=".$i."&text=".$text."&nl=1&rpt=image&ed=1");
+  preg_match_all('|<ul class="b-image-info">(.*?)</ul>|sui',$str,$proxy);  
+  
+   foreach($proxy[0] as $a){
+      preg_match('|img_url=(.*?)&from|sui',$a,$d);
+      preg_match('|<li class="text">(.*?)</li>|sui',$a,$s);
+      $arr=array('img_url=','&from');
+      $url=str_replace($arr,'',urldecode($d[0]));
+      $text=htmlspecialchars(strip_tags($s[0]));
+      echo $text.'<br>'.$url.'<hr>';
+    $j++;
+    if($j==$n){
+      exit();
+    } 
+   }
+  }
+}
