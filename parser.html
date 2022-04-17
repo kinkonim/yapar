@@ -1,10 +1,10 @@
 <html>
-<form action="" method="post">
-Запрос:<input type="text" name="text"><br>
+<form>
+<input type="text" name="text"><br>
 Сколько картинок:<input type="text" name="num"><br>
 <button>ok</button>
 </form>
-<?
+<?php
 if(isset($_POST['text']) and isset($_POST['num'])){
   $text=str_replace(" ","+",trim($_POST['text']));
   $n=intval($_POST['num']);
@@ -27,4 +27,5 @@ if(isset($_POST['text']) and isset($_POST['num'])){
    }
   }
 }
+?>
 </html>
